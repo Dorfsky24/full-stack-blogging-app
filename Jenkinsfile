@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        jdk "jdk"
-        maven "maven"
+        jdk "jdk17"
+        maven "maven3"
     }
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/ougabriel/full-stack-blogging-app.git'
+                git branch: 'main', url: 'git@github.com:Dorfsky24/full-stack-blogging-app.git'
             }
         }
         stage('Compile') {
@@ -47,22 +47,22 @@ pipeline {
         stage('Docker Build & Tag') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://index.docker.io/v1/') {
-                sh "docker build -t ugogabriel/gab-blogging-app ."
+                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://hub.docker.com/repositories/abbeydauda') {
+                sh "docker build -t abbeydauda/blog-app-project ."
                 }
                 }
             }
         }
         stage('Trivy Image Scan') {
             steps {
-                sh "trivy image --format table -o image.html ugogabriel/gab-blogging-app:latest"
+                sh "trivy image --format table -o image.html abbeydauda/blog-app-project:latest"
             }
         }
         stage('Docker Push Image') {
             steps {
                 script{
-                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://index.docker.io/v1/') {
-                    sh "docker push ugogabriel/gab-blogging-app"
+                withDockerRegistry(credentialsId: 'dockerhub-cred', url: 'https://hub.docker.com/repositories/abbeydauda') {
+                    sh "docker push abbeydauda/blog-app-project"
                 }
                 }
             }
@@ -116,9 +116,9 @@ post {
             emailext(
                 subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus}",
                 body: body,
-                to: 'ougabriel@gmail.com',
-                from: 'jenkins@example.com',
-                replyTo: 'jenkins@example.com',
+                to: 'abbeydauda20@gmail.com',
+                from: 'abbeydauda20@gmail.com',
+                replyTo: 'abbeydauda20@gmail.com',
                 mimeType: 'text/html'
             )
         }
