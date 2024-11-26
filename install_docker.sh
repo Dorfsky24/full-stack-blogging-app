@@ -35,6 +35,6 @@ sudo systemctl enable docker
 sudo docker --version
 
 # Add current user to the Docker group to avoid using sudo (optional)
-sudo usermod -aG docker $USER
+sudo usermod -aG docker ubuntu
 
 echo "Docker installation completed. Please log out and log back in to apply the group changes."
