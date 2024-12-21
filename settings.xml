@@ -13,13 +13,13 @@
   <servers>
     <server>
       <id>maven-releases</id>
-      <username>admin</username>
-      <password>admin</password>
+      <username>admin</*******>
+      <password>admin</*******>
     </server>
     <server>
       <id>maven-snapshots</id>
-      <username>admin</username>
-      <password>admin</password>
+      <username>admin</*******>
+      <password>admin</*******>
     </server>
   </servers>
 
