@@ -44,11 +44,8 @@ pipeline {
         stage('Publish Artifacts') {
             steps {
                 script {
-                    withMaven(
-                        globalMavenSettingsConfig: 'maven-settings',
-                        maven: 'maven3'
-                    ) {
-                        sh "mvn deploy -DaltDeploymentRepository=nexus::default::http://54.145.243.50:8081/repository/maven-releases/"
+                    configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+                        sh "mvn deploy -s $MAVEN_SETTINGS -DaltDeploymentRepository=nexus::default::http://54.145.243.50:8081/repository/maven-releases/"
                     }
                 }
             }
